@@ -17,14 +17,13 @@ const Button = props => {
   const history = useHistory();
   const { t } = useTranslation();
 
-  const { variant, label, onClick, color, goTo, icon, fullWidth, type } = props;
+  const { variant, label, onClick, color, goTo, fullWidth, type } = props;
 
   return (
     <ButtonMUI
       variant={variant}
       color={color}
       onClick={goTo ? () => history.push(goTo) : onClick}
-      endIcon={<Icon>{icon}</Icon>}
       fullWidth={fullWidth}
       type={type}
     >
@@ -39,7 +38,6 @@ Button.defaultProps = {
   onClick: () => console.log("Ouch!"),
   color: "primary",
   goTo: "",
-  icon: "mood",
   fullWidth: false,
   type: "button"
 };

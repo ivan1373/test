@@ -50,7 +50,7 @@ const LoginLayout = () => {
     <>
       <Header />
       <Container maxWidth="xs" className={classes.container}>
-        <Logo type="dark" width="100%" />
+        <Logo width="100%" />
         <form>
           <Input
             label="Username"

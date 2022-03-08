@@ -1,5 +1,6 @@
 // React
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 // MUI
 import Popover from "@material-ui/core/Popover";
@@ -14,10 +15,30 @@ import ListItem from "Components/molecules/ListItem";
 import gbFlag from "Assets/images/flags/gb.svg";
 import hrFlag from "Assets/images/flags/hr.svg";
 
+// Utils
+import moment from "moment";
+import { getCookie, getCookieWithPromise } from "Util/functions";
+
 const ChangeLanguage = props => {
   const { color } = props;
+  const { i18n } = useTranslation();
 
   const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    getCookieWithPromise("lang").then(response => {
+      i18n.changeLanguage(response);
+      moment.locale(response);
+    });
+    return () => {};
+  }, []);
+
+  const changeLanguage = value => {
+    i18n.changeLanguage(value);
+    moment.locale(value);
+    document.cookie = `lang=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+    setAnchorEl(null);
+  };
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -50,13 +71,16 @@ const ChangeLanguage = props => {
         <ListItem
           icon={<img alt="langFlag" src={gbFlag} />}
           primaryLabel="English"
-          selected
+          selected={getCookie("lang")==="en"}
           clickable
+          onClick={() => changeLanguage("en")}
         />
         <ListItem
           icon={<img alt="langFlag" src={hrFlag} />}
-          primaryLabel="Croatian"
+          primaryLabel="Hrvatski"
+          selected={getCookie("lang")==="hr"}
           clickable
+          onClick={() => changeLanguage("hr")}
         />
       </Popover>
     </>

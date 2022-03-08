@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // Atoms
 import Logo from "Components/atoms/UI/Logo";
 import Button from "Components/atoms/buttons/Button";
+import IconButton from "Components/atoms/buttons/IconButton";
 
 // Molecules
 import ChangeLanguage from "Components/molecules/ChangeLanguage";
@@ -29,7 +30,7 @@ const style = makeStyles(() => ({
 	},
 }));
 
-const Header = () => {
+const PrivateHeader = () => {
 	const user = JSON.parse(localStorage.getItem("user"));
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -40,26 +41,21 @@ const Header = () => {
 		<AppBar position="fixed" className={classes.appBar}>
 			<Toolbar>
 				<Box className={classes.title}>
-					<Logo width="115px" goTo={user ? "admin" : ""} />
+					<Logo width="115px" goTo={user ? "start" : ""} />
+				</Box>
+				<Box>
+					<IconButton icon="settings" onClick={() => console.log("clicked")} />
 				</Box>
 				<Box>
 					<ChangeLanguage color="secondary" />
 				</Box>
 				<Box ml={1}>
-					{user ? (
+					{user && (
 						<Button
 							label="Log out"
 							color="secondary"
 							onClick={() => dispatch(logOut(history))}
 						/>
-					) : (
-						location.pathname !== "/login" && (
-							<Button
-								label="Log in"
-								color="secondary"
-								goTo="login"
-							/>
-						)
 					)}
 				</Box>
 			</Toolbar>
@@ -67,4 +63,4 @@ const Header = () => {
 	);
 };
 
-export default Header;
+export default PrivateHeader;
